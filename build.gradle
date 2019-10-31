@@ -17,9 +17,11 @@ repositories {
 }
 
 dependencies {
-	compile 'org.springframework.shell:spring-shell-starter:2.0.1.BUILD-SNAPSHOT'
+	compile 'org.springframework.shell:spring-shell-starter:2.0.0.BUILD-SNAPSHOT'
+	compile 'org.aspectj:aspectjrt:1.7.0'
+	compile 'org.aspectj:aspectjweaver:1.7.0'
 
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+	//implementation 'org.springframework.boot:spring-boot-starter-web'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
