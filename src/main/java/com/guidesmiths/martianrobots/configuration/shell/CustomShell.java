@@ -19,19 +19,19 @@ public class CustomShell extends Shell {
 
     @Override
     public Object evaluate(Input input) {
-            Object result = super.evaluate(input);
+        Object result = super.evaluate(input);
 
-            if(result instanceof CommandNotFound){
-                String cmd = input.words().stream().collect(Collectors.joining(" ")).trim();
+        if(result instanceof CommandNotFound){
+            String cmd = input.words().stream().collect(Collectors.joining(" ")).trim();
 
-                if(multiStepExecutionService.getMultiStepExecutionInProcess()){
-                    robotBehaviorService.processCommand(cmd);
-                }else{
-                    //TODO: ¿System.out....?
-                    System.out.println("Command " + cmd + "not found");
-                }
+            if(multiStepExecutionService.getMultiStepExecutionInProcess()){
+                robotBehaviorService.processCommand(cmd);
+            }else{
+                //TODO: ¿System.out....?
+                System.out.println("Command " + cmd + "not found");
             }
+        }
 
-        return "OK";
+        return result;
     }
 }
