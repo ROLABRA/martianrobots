@@ -1,4 +1,4 @@
-package com.guidesmiths.martianrobots.configuration;
+package com.guidesmiths.martianrobots.configuration.shell;
 
 import java.util.Collections;
 import java.util.LinkedList;

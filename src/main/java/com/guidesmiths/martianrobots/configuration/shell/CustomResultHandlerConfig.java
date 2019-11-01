@@ -1,4 +1,4 @@
-package com.guidesmiths.martianrobots.configuration;
+package com.guidesmiths.martianrobots.configuration.shell;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -22,12 +22,6 @@ public class CustomResultHandlerConfig {
         return new IterableResultHandler();
     }
 
-    //TODO: Check
-    /*@PostConstruct
-    public void wireIterableResultHandler() {
-        iterableResultHandler().setDelegate(mainResultHandler());
-    }*/
-
     @Bean
     @ConditionalOnClass(TerminalSizeAware.class)
     public TerminalSizeAwareResultHandler terminalSizeAwareResultHandler() {
@@ -48,17 +42,4 @@ public class CustomResultHandlerConfig {
     public ParameterValidationExceptionResultHandler parameterValidationExceptionResultHandler() {
         return new ParameterValidationExceptionResultHandler();
     }
-
-    /*
-    @Bean
-    @Primary
-    @Qualifier("main")
-    public CustomThrowableResultHandler customThrowableResultHandler() {
-        return new CustomThrowableResultHandler();
-    }
-    */
-    /*@Bean
-    public ThrowableResultHandler throwableResultHandler() {
-        return new ThrowableResultHandler();
-    }*/
 }

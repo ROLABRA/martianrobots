@@ -1,4 +1,4 @@
-package com.guidesmiths.martianrobots.configuration;
+package com.guidesmiths.martianrobots.configuration.shell;
 
 import org.jline.reader.Parser;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -34,13 +34,6 @@ public class CustomStandardCommandsAutoConfiguration {
     public Quit quit() {
         return new Quit();
     }
-
-    /*@Bean
-    @ConditionalOnMissingBean(CustomStacktrace.Command.class)
-    @ConditionalOnProperty(prefix = "spring.shell.command.stacktrace", value = "enabled", havingValue = "true", matchIfMissing = true)
-    public CustomStacktrace stacktrace() {
-        return new CustomStacktrace();
-    }*/
 
     @ConditionalOnMissingBean(Stacktrace.Command.class)
     @ConditionalOnProperty(prefix = "spring.shell.command.stacktrace", value = "enabled", havingValue = "true", matchIfMissing = true)

@@ -1,4 +1,4 @@
-package com.guidesmiths.martianrobots.configuration;
+package com.guidesmiths.martianrobots.configuration.shell;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -12,9 +12,6 @@ import org.springframework.core.convert.converter.ConverterFactory;
 import org.springframework.core.convert.converter.GenericConverter;
 import org.springframework.core.convert.support.DefaultConversionService;
 import org.springframework.shell.ResultHandler;
-import org.springframework.shell.Shell;
-import org.springframework.shell.result.ResultHandlerConfig;
-import org.springframework.shell.result.ThrowableResultHandler;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -50,11 +47,6 @@ public class CustomShellAutoConfiguration {
         return Validation.buildDefaultValidatorFactory().getValidator();
     }
 
-    /*
-    @Bean
-    public CustomShell shell(@Qualifier("main") CustomThrowableResultHandler resultHandler) {
-        return new CustomShell(resultHandler);
-    }*/
     @Bean
     public CustomShell shell(@Qualifier("main") ResultHandler resultHandler) {
         return new CustomShell(resultHandler);

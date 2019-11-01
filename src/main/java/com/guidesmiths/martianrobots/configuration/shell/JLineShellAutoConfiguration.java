@@ -1,4 +1,4 @@
-package com.guidesmiths.martianrobots.configuration;
+package com.guidesmiths.martianrobots.configuration.shell;
 
 import static org.springframework.shell.jline.InteractiveShellApplicationRunner.SPRING_SHELL_INTERACTIVE;
 import static org.springframework.shell.jline.ScriptShellApplicationRunner.SPRING_SHELL_SCRIPT;
@@ -157,39 +157,7 @@ public class JLineShellAutoConfiguration {
 
         return lineReaderBuilder.build();
     }
-/*
-    @Bean
-    public LineReader lineReader() {
-        LineReaderBuilder lineReaderBuilder = LineReaderBuilder.builder()
-                .terminal(terminal())
-                .appName("Spring Shell")
-                .completer(completer())
-                .history(history)
-                .highlighter(new Highlighter() {
 
-                    @Override
-                    public AttributedString highlight(LineReader reader, String buffer) {
-                        int l = 0;
-                        String best = null;
-                        for (String command : shell.listCommands().keySet()) {
-                            if (buffer.startsWith(command) && command.length() > l) {
-                                l = command.length();
-                                best = command;
-                            }
-                        }
-                        if (best != null) {
-                            return new AttributedStringBuilder(buffer.length()).append(best, AttributedStyle.BOLD).append(buffer.substring(l)).toAttributedString();
-                        }
-                        else {
-                            return new AttributedString(buffer, AttributedStyle.DEFAULT.foreground(AttributedStyle.YELLOW));
-                        }
-                    }
-                })
-                .parser(parser());
-
-        return lineReaderBuilder.build();
-    }
-*/
     /**
      * Sanitize the buffer input given the customizations applied to the JLine parser (<em>e.g.</em> support for
      * line continuations, <em>etc.</em>)
