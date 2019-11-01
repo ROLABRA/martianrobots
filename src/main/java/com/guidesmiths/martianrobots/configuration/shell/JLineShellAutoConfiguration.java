@@ -27,6 +27,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -62,6 +63,7 @@ public class JLineShellAutoConfiguration {
         }
     }
 
+    @Profile("!test")
     @Bean
     @ConditionalOnProperty(prefix = SPRING_SHELL_INTERACTIVE, value = InteractiveShellApplicationRunner.ENABLED, havingValue = "true", matchIfMissing = true)
     public ApplicationRunner interactiveApplicationRunner(Parser parser, Environment environment) {
