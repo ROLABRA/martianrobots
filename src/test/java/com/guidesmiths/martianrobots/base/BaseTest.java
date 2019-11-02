@@ -1,5 +1,6 @@
-package com.guidesmiths.martianrobots;
+package com.guidesmiths.martianrobots.base;
 
+import com.guidesmiths.martianrobots.MartianrobotsApplication;
 import com.guidesmiths.martianrobots.configuration.shell.CustomShell;
 import com.guidesmiths.martianrobots.service.MultiStepExecutionService;
 import com.guidesmiths.martianrobots.util.validators.Constraints;
@@ -43,12 +44,30 @@ public class BaseTest {
         });
     }
 
+    public void insertBounds(String bounds){
+        customShell.evaluate(new Input(){
+            @Override
+            public String rawText() {
+                return bounds;
+            }
+        });
+    }
+
     public void insertInitialRobotPosition(){
         String[] result = (String[]) customShell.evaluate(new Input(){
             @Override
             public String rawText() {
                 //Orientation param left
-                return "" + (MIN_COORDINATE_VALUE) + " " + (MIN_COORDINATE_VALUE) + " E";
+                return "" + (MIN_COORDINATE_VALUE) + " " + (MIN_COORDINATE_VALUE) + " N";
+            }
+        });
+    }
+    public void insertInitialRobotPosition(String initialPosition){
+        String[] result = (String[]) customShell.evaluate(new Input(){
+            @Override
+            public String rawText() {
+                //Orientation param left
+                return initialPosition;
             }
         });
     }
