@@ -4,6 +4,9 @@ build/
 !**/src/main/**
 !**/src/test/**
 
+### Commands history ###
+spring-shell.log
+
 ### STS ###
 .apt_generated
 .classpath

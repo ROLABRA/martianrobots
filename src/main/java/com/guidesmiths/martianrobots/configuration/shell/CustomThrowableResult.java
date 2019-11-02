@@ -1,10 +1,7 @@
 package com.guidesmiths.martianrobots.configuration.shell;
 
-import com.guidesmiths.martianrobots.model.MultiCommandResult;
 import com.guidesmiths.martianrobots.service.MultiStepExecutionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.shell.ExitRequest;
 import org.springframework.shell.ResultHandler;
 import org.springframework.stereotype.Component;
