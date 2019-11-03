@@ -4,7 +4,7 @@ import com.guidesmiths.martianrobots.base.BaseTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.shell.Input;
 
-import static com.guidesmiths.martianrobots.util.validators.Constraints.*;
+import static com.guidesmiths.martianrobots.util.constraints.Constraints.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class MartianrobotsOutOfBoundsTests extends BaseTest {
@@ -13,7 +13,7 @@ class MartianrobotsOutOfBoundsTests extends BaseTest {
        startSimulation();
        insertBounds();
 
-        String[] result = (String[]) customShell.evaluate(new Input(){
+        String result = (String) customShell.evaluate(new Input(){
             @Override
             public String rawText() {
                 return "" + (MAX_COORDINATE_VALUE + 1) + " " + (MAX_COORDINATE_VALUE + 1) + " E";
@@ -21,9 +21,10 @@ class MartianrobotsOutOfBoundsTests extends BaseTest {
         });
 
         assertThat(result).isNotNull();
-        assertThat(result).hasSize(2);
-        for (String validationError : result){
-            assertThat(result).startsWith(BAD_COORDINATES_MSG);
+        String[] results = result.split("\n");
+        assertThat(results).hasSize(2);
+        for (String validationError : results){
+            assertThat(validationError).startsWith(BAD_COORDINATES_MSG);
         }
     }
 
@@ -32,7 +33,7 @@ class MartianrobotsOutOfBoundsTests extends BaseTest {
         startSimulation();
         insertBounds();
 
-        String[] result = (String[]) customShell.evaluate(new Input(){
+        String result = (String) customShell.evaluate(new Input(){
             @Override
             public String rawText() {
                 return "" + (MIN_COORDINATE_VALUE - 1) + " " + (MIN_COORDINATE_VALUE - 1) + " E";
@@ -40,9 +41,10 @@ class MartianrobotsOutOfBoundsTests extends BaseTest {
         });
 
         assertThat(result).isNotNull();
-        assertThat(result).hasSize(2);
-        for (String validationError : result){
-            assertThat(result).startsWith(BAD_COORDINATES_MSG);
+        String[] results = result.split("\n");
+        assertThat(results).hasSize(2);
+        for (String validationError : results){
+            assertThat(validationError).startsWith(BAD_COORDINATES_MSG);
         }
     }
 
@@ -50,7 +52,7 @@ class MartianrobotsOutOfBoundsTests extends BaseTest {
     void planetOutOfBoundsOnTop(){
         startSimulation();
 
-        String[] result = (String[]) customShell.evaluate(new Input(){
+        String result = (String) customShell.evaluate(new Input(){
             @Override
             public String rawText() {
                 return "" + (MAX_COORDINATE_VALUE + 1) + " " + (MAX_COORDINATE_VALUE + 1);
@@ -58,9 +60,10 @@ class MartianrobotsOutOfBoundsTests extends BaseTest {
         });
 
         assertThat(result).isNotNull();
-        assertThat(result).hasSize(2);
-        for (String validationError : result){
-            assertThat(result).startsWith(BAD_COORDINATES_MSG);
+        String[] results = result.split("\n");
+        assertThat(results).hasSize(2);
+        for (String validationError : results){
+            assertThat(validationError).startsWith(BAD_COORDINATES_MSG);
         }
     }
 
@@ -68,7 +71,7 @@ class MartianrobotsOutOfBoundsTests extends BaseTest {
     void planetOutOfBoundsOnBottom(){
         startSimulation();
 
-        String[] result = (String[]) customShell.evaluate(new Input(){
+        String result = (String) customShell.evaluate(new Input(){
             @Override
             public String rawText() {
                 return "" + (MIN_COORDINATE_VALUE - 1) + " " + (MIN_COORDINATE_VALUE - 1);
@@ -76,9 +79,10 @@ class MartianrobotsOutOfBoundsTests extends BaseTest {
         });
 
         assertThat(result).isNotNull();
-        assertThat(result).hasSize(2);
-        for (String validationError : result){
-            assertThat(result).startsWith(BAD_COORDINATES_MSG);
+        String[] results = result.split("\n");
+        assertThat(results).hasSize(2);
+        for (String validationError : results){
+            assertThat(validationError).startsWith(BAD_COORDINATES_MSG);
         }
     }
 }

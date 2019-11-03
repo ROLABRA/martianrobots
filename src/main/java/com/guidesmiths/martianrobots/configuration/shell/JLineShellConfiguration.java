@@ -41,7 +41,7 @@ import org.springframework.shell.jline.PromptProvider;
 import org.springframework.shell.jline.ScriptShellApplicationRunner;
 
 @Configuration
-public class JLineShellAutoConfiguration {
+public class JLineShellConfiguration {
 
     @Autowired
     private PromptProvider promptProvider;

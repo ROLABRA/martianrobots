@@ -1,8 +1,8 @@
-package com.guidesmiths.martianrobots.service;
+package com.guidesmiths.martianrobots.modules.shell.multiexecution;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public class MultiStepExecutionService {
     private boolean multiStepExecutionInProcess = false;
 

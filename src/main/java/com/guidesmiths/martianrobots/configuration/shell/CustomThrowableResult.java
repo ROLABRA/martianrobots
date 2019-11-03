@@ -1,6 +1,8 @@
 package com.guidesmiths.martianrobots.configuration.shell;
 
-import com.guidesmiths.martianrobots.service.MultiStepExecutionService;
+import com.guidesmiths.martianrobots.modules.robot.RobotBehaviorService;
+import com.guidesmiths.martianrobots.modules.shell.multiexecution.MultiStepExecutionService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.ExitRequest;
 import org.springframework.shell.ResultHandler;
@@ -10,6 +12,9 @@ import org.springframework.stereotype.Component;
 public class CustomThrowableResult implements ResultHandler<Throwable> {
     @Autowired
     private MultiStepExecutionService multiStepExecutionService;
+    @Autowired
+    private RobotBehaviorService robotBehaviorService;
+    private final Logger LOG = Logger.getLogger(CustomThrowableResult.class);
 
     @Override
     public void handleResult(Throwable result) {
@@ -20,13 +25,13 @@ public class CustomThrowableResult implements ResultHandler<Throwable> {
                 try {
                     Thread.sleep(350L);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    LOG.debug("Sleep interrupted", e);
                 }
             }else{
                 System.exit(0);
             }
         }else{
-            //TODO: LOG
+            LOG.debug("Unrecognized throwable", result);
         }
     }
 }

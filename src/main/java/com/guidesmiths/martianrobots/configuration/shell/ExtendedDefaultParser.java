@@ -231,7 +231,6 @@ class ExtendedDefaultParser implements Parser {
         }
 
         public String word() {
-            // TODO: word() should always be contained in words()
             if ((wordIndex < 0) || (wordIndex >= words.size())) {
                 return "";
             }

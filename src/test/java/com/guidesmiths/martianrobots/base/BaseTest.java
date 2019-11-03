@@ -2,20 +2,17 @@ package com.guidesmiths.martianrobots.base;
 
 import com.guidesmiths.martianrobots.MartianrobotsApplication;
 import com.guidesmiths.martianrobots.configuration.shell.CustomShell;
-import com.guidesmiths.martianrobots.service.MultiStepExecutionService;
-import com.guidesmiths.martianrobots.util.validators.Constraints;
-import org.junit.Before;
+import com.guidesmiths.martianrobots.modules.shell.multiexecution.MultiStepExecutionService;
+import com.guidesmiths.martianrobots.util.constraints.Constraints;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.shell.Input;
-import org.springframework.stereotype.Component;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.event.annotation.BeforeTestMethod;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static com.guidesmiths.martianrobots.util.validators.Constraints.MAX_COORDINATE_VALUE;
-import static com.guidesmiths.martianrobots.util.validators.Constraints.MIN_COORDINATE_VALUE;
+import static com.guidesmiths.martianrobots.util.constraints.Constraints.MAX_COORDINATE_VALUE;
+import static com.guidesmiths.martianrobots.util.constraints.Constraints.MIN_COORDINATE_VALUE;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = {MartianrobotsApplication.class}, webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -25,6 +22,15 @@ public class BaseTest {
     public CustomShell customShell;
     @Autowired
     public MultiStepExecutionService multiStepExecutionService;
+
+    public void configureInteractiveMode(boolean mode){
+        customShell.evaluate(new Input(){
+            @Override
+            public String rawText() {
+                return Constraints.INTERACTIVE_OUTPUT + (mode?" on":" off");
+            }
+        });
+    }
 
     public void startSimulation(){
         customShell.evaluate(new Input(){

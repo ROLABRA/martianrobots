@@ -1,6 +1,4 @@
-package com.guidesmiths.martianrobots.service;
-
-import org.springframework.stereotype.Service;
+package com.guidesmiths.martianrobots.modules.robot;
 
 public interface RobotBehaviorService {
     Object processCommand(String cmd);

@@ -1,9 +1,9 @@
-package com.guidesmiths.martianrobots.service.impl;
+package com.guidesmiths.martianrobots.modules.robot;
 
 import com.guidesmiths.martianrobots.model.Robot;
 import com.guidesmiths.martianrobots.model.basic.Coordinates;
-import com.guidesmiths.martianrobots.service.MultiStepExecutionService;
-import com.guidesmiths.martianrobots.service.RobotBehaviorService;
+import com.guidesmiths.martianrobots.modules.shell.multiexecution.MultiStepExecutionService;
+import com.guidesmiths.martianrobots.modules.shell.preferences.ShellPreferencesService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -13,7 +13,9 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.*;
 
-import static com.guidesmiths.martianrobots.util.validators.Constraints.NOT_CORRECT_PARAMETERS_COUNT;
+import static com.guidesmiths.martianrobots.util.constraints.Constraints.FINISH_SIMULATION_COMMAND;
+import static com.guidesmiths.martianrobots.util.constraints.Constraints.NOT_CORRECT_PARAMETERS_COUNT;
+import static com.guidesmiths.martianrobots.util.constraints.Constraints.PREFERENCE_INTERACTIVE_OUTPUT_KEY;
 
 @Service
 public class RobotBehaviorServiceImpl implements RobotBehaviorService {
@@ -22,9 +24,12 @@ public class RobotBehaviorServiceImpl implements RobotBehaviorService {
     @Autowired
     private MultiStepExecutionService multiStepExecutionService;
     @Autowired
+    private ShellPreferencesService shellPreferencesService;
+    @Autowired
     private ApplicationContext context;
 
     private Robot robot;
+    private List<Robot> robots = new ArrayList<Robot>();
 
     private enum MACHINE_STATES {
         INIT_INSERT_MAX_COORDINATES,
@@ -43,13 +48,25 @@ public class RobotBehaviorServiceImpl implements RobotBehaviorService {
     public Object processCommand(String cmd){
         String[] params = cmd.split(" ");
 
-        //TODO: Maybe throw exception
-        if(!validateParamsCount(params)) return new String[]{ (String.format(NOT_CORRECT_PARAMETERS_COUNT, neededParams.get(state), params.length))};
+        if(params.length == 1 && FINISH_SIMULATION_COMMAND.equalsIgnoreCase(params[0])){
+            String result = null;
+            if(!Boolean.valueOf(shellPreferencesService.getPreference(PREFERENCE_INTERACTIVE_OUTPUT_KEY))){
+                result = formatOutputResult();
+            }
+
+            multiStepExecutionService.setMultiStepExecutionInProcess(false);
+
+            return result;
+        }
+
+        if(!validateParamsCount(params)) return new String(String.format(NOT_CORRECT_PARAMETERS_COUNT, neededParams.get(state), params.length));
 
         try {
             switch (state) {
                 case INIT_INSERT_MAX_COORDINATES:
-                    ((Robot) context.getBean("robot")).setBounds(new Coordinates(params[0], params[1]));
+                    robot = ((Robot) context.getBean("robot"));
+                    robot.reset();
+                    robot.setBounds(new Coordinates(params[0], params[1]));
 
                     state = MACHINE_STATES.INSERT_INITIAL_POSITION;
 
@@ -62,14 +79,15 @@ public class RobotBehaviorServiceImpl implements RobotBehaviorService {
 
                     break;
                 case INSERT_MOVEMENTS:
-                    String[] steps = params[0].split("");
-                    for(String step : steps) {
-                        robot.move(step);
-                    }
+                    robot.move(params[0]);
 
                     state = MACHINE_STATES.INSERT_INITIAL_POSITION;
 
-                    System.out.println(robot.toString());
+                    if(Boolean.valueOf(shellPreferencesService.getPreference(PREFERENCE_INTERACTIVE_OUTPUT_KEY))) {
+                        return robot.toString();
+                    }else{
+                        robots.add(robot);
+                    }
                     break;
                 default:
                     System.out.println("BAD parameters provided");
@@ -77,25 +95,29 @@ public class RobotBehaviorServiceImpl implements RobotBehaviorService {
                     break;
             }
         }catch(ConstraintViolationException e){
-            String[] result = new String[e.getConstraintViolations().size()];
-            int i = 0;
+            String result = "";
             for(ConstraintViolation c : e.getConstraintViolations()){
-                result[i] = c.getMessage();
-                i++;
-                //System.out.println(c.getMessage());
+                result = result + c.getMessage() + "\n";
             }
             return result;
         }
         return null;
     }
 
-    public void reset(){
-        this.state = MACHINE_STATES.INIT_INSERT_MAX_COORDINATES;
+    private String formatOutputResult(){
+        String result = "";
 
+        for(Robot robot : robots){
+            result = result + robot.toString() + "\n";
+        }
+
+        return result;
     }
 
-    //TODO: CHECK VALID LETTERS/NUMBERS IN INPUT?
-    //TODO: ADD INTERACTIVE MODE: The output is shown in each inserted pais of commands or at the end.
+    public void reset(){
+        this.state = MACHINE_STATES.INIT_INSERT_MAX_COORDINATES;
+        this.robots = new ArrayList<Robot>();
+    }
 
     private boolean validateParamsCount(String[] params){
         Integer neededParamsInt = neededParams.get(state);

@@ -1,13 +1,12 @@
 package com.guidesmiths.martianrobots.model.basic;
 
-import com.guidesmiths.martianrobots.util.validators.Constraints;
-import lombok.Data;
+import com.guidesmiths.martianrobots.util.constraints.Constraints;
 import lombok.Getter;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.*;
 
-import static com.guidesmiths.martianrobots.util.validators.Constraints.BAD_COORDINATES_MSG;
+import static com.guidesmiths.martianrobots.util.constraints.Constraints.BAD_COORDINATES_MSG;
 
 @Validated
 public class Coordinates {
@@ -37,6 +36,6 @@ public class Coordinates {
         this.posX--;
     }
     public void decrementY(){
-        this.posY++;
+        this.posY--;
     }
 }

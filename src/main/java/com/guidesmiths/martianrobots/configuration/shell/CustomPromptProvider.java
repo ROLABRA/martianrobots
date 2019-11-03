@@ -1,6 +1,6 @@
 package com.guidesmiths.martianrobots.configuration.shell;
 
-import com.guidesmiths.martianrobots.service.MultiStepExecutionService;
+import com.guidesmiths.martianrobots.modules.shell.multiexecution.MultiStepExecutionService;
 import org.jline.utils.AttributedStyle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.jline.PromptProvider;
